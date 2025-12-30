@@ -26,6 +26,7 @@
                         <ComboBox fx:id="cbFormations" prefWidth="200.0" promptText="Sélectionner..." />
                         <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#handleOpenAddStudent" text="Ajouter Étudiant" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
                     </children>
+                    <Label fx:id="lblMoyenneGeneral" text="Moyenne Classe : --/20" style="-fx-font-weight: bold; -fx-text-fill: #2980b9;"/>
                 </HBox>
             </children>
         </VBox>
@@ -33,10 +34,10 @@
     <center>
         <TableView fx:id="tableStudents" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <columns>
-                <TableColumn fx:id="colId" prefWidth="100.0" text="ID" />
-                <TableColumn fx:id="colName" prefWidth="200.0" text="Nom Prénom" />
+<!--                <TableColumn fx:id="colId" prefWidth="100.0" text="ID" />-->
+                <TableColumn fx:id="colName" prefWidth="200.0" text="Nom complèt" />
                 <TableColumn fx:id="colMoyenne" prefWidth="100.0" text="Moyenne" />
-                <TableColumn fx:id="colMoyenneFormation" prefWidth="150.0" text="Moyenne Formation" />
+<!--                <TableColumn fx:id="colMoyenneFormation" prefWidth="150.0" text="Moyenne Formation" />-->
             </columns>
             <columnResizePolicy>
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

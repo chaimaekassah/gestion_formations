@@ -6,14 +6,7 @@ import java.sql.SQLException;
 
 public class DBConnection {
     private static Connection connection;
-
-    // --- CHANGEMENTS IMPORTANTS ICI ---
-    // 1. Le protocole est 'postgresql'
-    // 2. Le port est 5432 (par défaut sur Postgres)
-    // 3. Vérifie que la base 'db_ecole' existe bien dans ton pgAdmin ou console
     private static final String URL = "jdbc:postgresql://localhost:5432/db_ecole";
-
-    // 4. L'utilisateur par défaut est souvent 'postgres' (vérifie ta config)
     private static final String USER = "postgres";
     private static final String PASSWORD = "1234";
 

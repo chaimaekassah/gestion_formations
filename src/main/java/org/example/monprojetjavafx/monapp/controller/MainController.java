@@ -24,24 +24,26 @@ public class MainController {
     private ComboBox<Formation> cbFormations;
     @FXML
     private TableView<Student> tableStudents;
-    @FXML
-    private TableColumn<Student, String> colId;
+//    @FXML
+//    private TableColumn<Student, String> colId;
     @FXML
     private TableColumn<Student, String> colName;
     @FXML
     private TableColumn<Student, Float> colMoyenne;
+//    @FXML
+//    private TableColumn<Student, Float> colMoyenneFormation;
     @FXML
-    private TableColumn<Student, Float> colMoyenneFormation;
+    private Label lblMoyenneGeneral;
 
     private DataManager dataManager = new DataManager();
 
     @FXML
     public void initialize() {
         // 1. Configurer les colonnes de la table
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+//        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colMoyenne.setCellValueFactory(new PropertyValueFactory<>("moyenne"));
-        colMoyenneFormation.setCellValueFactory(new PropertyValueFactory<>("formationMoyenne"));
+//        colMoyenneFormation.setCellValueFactory(new PropertyValueFactory<>("formationMoyenne"));
 
         // 2. Charger les formations dans la ComboBox
         loadFormations();
@@ -88,8 +90,28 @@ public class MainController {
 
     public void loadStudents(String formationId) {
         try {
-            ObservableList<Student> list = FXCollections.observableArrayList(dataManager.getStudentsByFormation(formationId));
+            // 1. Récupération des données depuis le DAO
+            List<Student> students = dataManager.getStudentsByFormation(formationId);
+
+            // 2. Mise à jour du Tableau (Ça tu l'avais déjà)
+            ObservableList<Student> list = FXCollections.observableArrayList(students);
             tableStudents.setItems(list);
+
+            // --- 3. PARTIE MANQUANTE : MISE À JOUR DU LABEL MOYENNE ---
+            if (students.isEmpty()) {
+                // Si la liste est vide, on affiche N/A
+                lblMoyenneGeneral.setText("Moyenne Classe : N/A");
+            } else {
+                // L'astuce : Le DataManager a déjà calculé la moyenne SQL et l'a mise
+                // dans la variable 'formationMoyenne' de chaque étudiant.
+                // On prend donc le premier étudiant de la liste pour lire cette info.
+                float moyenne = students.get(0).getFormationMoyenne();
+
+                // On formate l'affichage (%.2f veut dire "2 chiffres après la virgule")
+                lblMoyenneGeneral.setText(String.format("Moyenne Classe : %.2f / 20", moyenne));
+            }
+            // ----------------------------------------------------------
+
         } catch (SQLException e) {
             showAlert("Erreur BDD", "Impossible de charger les étudiants : " + e.getMessage());
         }
